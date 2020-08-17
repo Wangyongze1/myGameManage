@@ -10,13 +10,13 @@
             <el-row>
               <el-button size="mini" round @click="change(0)" :class="{actives: 0==num}">推荐</el-button>
               <el-button size="mini" round @click="change(1)" :class="{actives: 1==num}">排行榜</el-button>
-              <el-button size="mini" round @click="change(2)" :class="{actives: 2==num}">歌单</el-button>
-              <el-button size="mini" round @click="change(3)" :class="{actives: 3==num}">主播电台</el-button>
+              <el-button size="mini" round @click="change(3)" :class="{actives: 3==num}">歌单</el-button>
+              <el-button size="mini" round @click="change(6)" :class="{actives: 6==num}">主播电台</el-button>
               <el-button size="mini" round @click="change(4)" :class="{actives: 4==num}">歌手</el-button>
               <el-button size="mini" round @click="change(5)" :class="{actives: 5==num}">新碟上架</el-button>
             </el-row>
           </el-tab-pane>
-          <el-tab-pane label="我的音乐" name="second" ></el-tab-pane>
+          <el-tab-pane label="我的音乐" name="second"></el-tab-pane>
           <el-tab-pane label="朋友" name="third">角色管理</el-tab-pane>
           <el-tab-pane label="商城" name="fourth">定时任务补偿</el-tab-pane>
           <el-tab-pane label="音乐人" name="firth">定时任务补偿</el-tab-pane>
@@ -40,16 +40,20 @@ export default {
     return {
       activeName: 'second',
       num: 0,
-      pageList: ['/OnePage', '/SecondPage'],
+      pageList: ['/OnePage', '/SecondPage', '/SearchSong'],
       input: ''
     }
   },
   methods: {
     handleClick (tab, event) {
-      console.log(tab, event)
+      switch (tab.name) {
+        case 'first': this.$router.push(this.pageList[0]); break
+        case 'second': this.$router.push(this.pageList[2]); break
+      }
     },
     change (num) {
       this.num = num
+      console.log(2)
       this.$router.push(this.pageList[num])
     }
   }
@@ -111,6 +115,9 @@ export default {
     padding-right: 20px;
   } {
     padding-left: 20px;
+  }
+  /deep/ div .el-row {
+    z-index: 10;
   }
   /deep/ div .el-tabs__item{
     line-height: 70px;

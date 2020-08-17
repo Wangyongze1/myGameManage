@@ -3,7 +3,7 @@
     <div class="TJ_header">
       <div class="block">
         <el-carousel trigger="click" height="285px;" arrow="always">
-          <el-carousel-item v-for="item in pMusicList" :key="item">
+          <el-carousel-item v-for="(item,index) in pMusicList" :key="index">
             <img :src="item.img" style="width: 730px;height:285px;"><img src="@/assets/down.png" style="width: 254px;height:285px;">
           </el-carousel-item>
         </el-carousel>
@@ -45,6 +45,7 @@ export default {
 <style scoped>
   #TuiJian {
     margin-top: 35px;
+    background: #F5F5F5;
   }
   .TJ_header {
     height: 285px;

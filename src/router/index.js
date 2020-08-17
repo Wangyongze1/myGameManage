@@ -1,9 +1,5 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-import OnePage from '@/components/OnePage/OnePage'
-import SecondPage from '@/components/SecondPage/SecondPage'
-import Error from '@/components/Error/Error'
 Vue.use(Router)
 const originalPush = Router.prototype.push
 Router.prototype.push = function push (location) {
@@ -19,23 +15,26 @@ export default new Router({
     {
       path: '/HelloWorld',
       name: 'HelloWorld',
-      component: HelloWorld,
+      component: () => import('@/components/HelloWorld'),
       children: [
         {
           path: '/OnePage',
           name: 'OnePage',
-          component: OnePage
-        },
-        {
+          component: () => import('@/components/OnePage/OnePage')
+        }, {
           path: '/SecondPage',
           name: 'SecondPage',
-          component: SecondPage
+          component: () => import('@/components/SecondPage/SecondPage')
+        }, {
+          path: '/SearchSong',
+          name: 'SearchSong',
+          component: () => import('@/components/SearchSong/SearchSong')
         }
       ]
     },
     {
       path: '*',
-      component: Error
+      component: () => import('@/components/Error/Error')
     }
   ]
 })
