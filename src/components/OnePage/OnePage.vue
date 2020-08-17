@@ -1,5 +1,5 @@
 <template>
-  <div id="TuiJian" style="height: 500px;">
+  <div id="TuiJian" style="height: auto;">
     <div class="TJ_header">
       <div class="block">
         <el-carousel trigger="click" height="285px;" arrow="always">
@@ -9,7 +9,9 @@
         </el-carousel>
       </div>
     </div>
-    <div class="TJ_content"></div>
+    <div class="TJ_content">
+      <div class="CLeft"></div><div class="CRight"></div>
+    </div>
     <div class="TJ_footer"></div>
   </div>
 </template>
@@ -48,7 +50,9 @@ export default {
     height: 285px;
   }
   .TJ_content {
-    height: 285px;
+    width: 984px;
+    height: auto;
+    margin: 0 auto;
   }
   .el-carousel__item h3 {
     color: #475669;
@@ -86,5 +90,17 @@ export default {
   }
   #TuiJian /deep/ .el-carousel__container {
     height: 285px;
+  }
+  .CLeft {
+    width: 730px;
+    height: 500px;
+    background: blue;
+    display: inline-block;
+  }
+  .CRight {
+    width: 254px;
+    display: inline-block;
+    height: 500px;
+    background: red;
   }
 </style>

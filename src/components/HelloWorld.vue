@@ -23,7 +23,8 @@
           <el-tab-pane label="下载客户端" name="sixth">定时任务补偿</el-tab-pane>
         </el-tabs>
         <div class="Input">
-          <el-input v-model="input" style="width: 160px" prefix-icon="el-icon-search" placeholder="音乐/视频/电台/用户" size="mini"></el-input>
+          <el-input v-model="input" style="width: 160px;margin-right: 20px" prefix-icon="el-icon-search" placeholder="音乐/视频/电台/用户" size="mini"></el-input>
+          <label style="color: #787878;font-size: 12px;">登录</label>
         </div>
       </div>
       <div class="Nav_content"></div>
@@ -67,7 +68,7 @@ export default {
   }
   .Input {
     position: absolute;
-    right: calc(50% - 380px);
+    right: calc(50% - 420px);
     top: 20px;
   }
   .Nav {
