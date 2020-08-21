@@ -4,8 +4,13 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import { Button, Select, Row, Menu, MenuItem,
-  Submenu, Tabs, TabPane, Carousel, CarouselItem, Input} from 'element-ui'
+  Submenu, Tabs, TabPane, Carousel, CarouselItem, Input, Table, TableColumn} from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+
+var axios = require('axios')
+axios.defaults.baseURL = 'http://localhost:8443'
+// 全局注册，之后可在其他组件中通过 this.$axios 发送数据
+Vue.prototype.$axios = axios
 
 Vue.use(Button)
 Vue.use(Select)
@@ -18,6 +23,8 @@ Vue.use(TabPane)
 Vue.use(Carousel)
 Vue.use(CarouselItem)
 Vue.use(Input)
+Vue.use(Table)
+Vue.use(TableColumn)
 
 Vue.config.productionTip = false
 

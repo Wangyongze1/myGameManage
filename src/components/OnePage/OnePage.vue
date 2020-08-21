@@ -52,7 +52,7 @@ export default {
   }
   .TJ_content {
     width: 984px;
-    height: auto;
+    height: 500px;
     margin: 0 auto;
   }
   .el-carousel__item h3 {
