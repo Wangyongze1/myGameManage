@@ -3,17 +3,17 @@
     <div class="Content">
       <div class="Middle">
         <div class="SearchContent" style="margin-top: 15px;">
-          <el-input placeholder="请输入内容" v-model="SongName">
+          <el-input placeholder="请输入内容" v-model="sSongName">
             <el-button slot="append" icon="el-icon-search" @click="search()"></el-button>
           </el-input>
         </div>
         <div class="SongList">
-          <p style="color: #999999" v-if="SongNum > 0">搜索"{{SongName}}"，找到 <span style="color: #C20C0C;">{{SongNum}}</span> 首歌</p>
-          <p style="color: #999999" v-else-if="SongNum == 0">未搜索到任何歌曲</p>
+          <p style="color: #999999" v-if="Num > 0">搜索"{{SongName}}"，找到 <span style="color: #C20C0C;">{{Num}}</span> {{msg}}</p>
+          <p style="color: #999999" v-else-if="Num == 0">未搜索到任何歌曲</p>
         </div>
         <div class="List">
-          <el-tabs type="border-card">
-            <el-tab-pane label="单曲">
+          <el-tabs type="border-card" v-model="activeName" @tab-click="click">
+            <el-tab-pane label="单曲" name="song">
               <el-table
                 :data="personData"
                 style="width: 100%"
@@ -23,7 +23,7 @@
                   label="歌名"
                   width="370">
                   <template slot-scope="scope">
-                    <el-button @click="handleClick(scope.row.url)" type="text" size="small">{{scope.row.songname}}</el-button>
+                    <el-button @click="handleClick(scope.row.url,scope.row.songname)" type="text" size="small">{{scope.row.songname}}</el-button>
                   </template>
                 </el-table-column>
                 <el-table-column
@@ -47,9 +47,13 @@
                 </el-table-column>
               </el-table>
             </el-tab-pane>
-            <el-tab-pane label="配置管理">配置管理</el-tab-pane>
-            <el-tab-pane label="角色管理">角色管理</el-tab-pane>
-            <el-tab-pane label="定时任务补偿">定时任务补偿</el-tab-pane>
+            <el-tab-pane label="歌手" name="singer">歌手</el-tab-pane>
+            <el-tab-pane label="专辑" name="list">专辑</el-tab-pane>
+            <el-tab-pane label="视频" name="video">视频</el-tab-pane>
+            <el-tab-pane label="歌词" name="lyrics">歌词</el-tab-pane>
+            <el-tab-pane label="歌单" name="myList">歌单</el-tab-pane>
+            <el-tab-pane label="主播电台" name="watcher">主播电台</el-tab-pane>
+            <el-tab-pane label="用户" name="user">用户</el-tab-pane>
           </el-tabs>
         </div>
       </div>
@@ -65,11 +69,28 @@ export default {
       this.SongName = this.$route.params.str
     }
   },
+  watch: {
+    activeName: {
+      handler () {
+        switch (this.activeName) {
+          case 'song': this.msg = '首单曲'; break
+          case 'singer': this.msg = '位歌手'; break
+          case 'list': this.msg = '个视频'; break
+          case 'video': this.msg = '个歌词'; break
+          case 'myList': this.msg = '个歌单'; break
+          case 'watcher': this.msg = '个电台'; break
+          case 'user': this.msg = '个用户'; break
+        }
+      }
+    }
+  },
   data () {
     return {
-      msg: '不是吧没有触发？',
+      msg: '首单曲',
       SongName: '',
-      SongNum: 0,
+      sSongName: '',
+      Num: 0,
+      activeName: 'song',
       tableData: [{
         songName: '一路向北',
         action: '',
@@ -88,8 +109,11 @@ export default {
         return ''
       }
     },
-    handleClick (url) {
-      console.log(url)
+    click (tab, event) {
+      this.activeName = tab.name
+    },
+    handleClick (url, name) {
+      this.$store.commit('changePlay', url)
     },
     search () {
       // this.$axios.get('/user/selectOne?id=' + id)
@@ -101,11 +125,12 @@ export default {
       //   })
       //   .catch(failResponse => {
       //   })
+      this.SongName = this.sSongName
       this.$axios.get('/music/selectByName?songName=' + this.SongName)
         .then(r => {
           if (r.status === 200) {
             this.personData = r.data
-            console.log(r.data)
+            this.Num = r.data.length
           }
         })
         .catch(failResponse => {
@@ -128,7 +153,7 @@ export default {
     height: auto;
   }
   .Middle {
-    width: 904px;
+    max-width: 904px;
     min-height: 700px;
     margin: 0 auto;
     padding: 0 40px;

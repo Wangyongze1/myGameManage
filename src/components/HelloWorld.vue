@@ -19,6 +19,9 @@ export default {
     }
   },
   methods: {
+    appendData (data) {
+      console.log(data)
+    }
   }
 }
 </script>

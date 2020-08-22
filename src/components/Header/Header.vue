@@ -37,7 +37,7 @@ export default {
   name: 'Header',
   data () {
     return {
-      activeName: 'second',
+      activeName: '',
       num: 0,
       pageList: ['/OnePage', '/SecondPage', '/SearchSong'],
       SongName: ''
@@ -90,7 +90,7 @@ export default {
     background-color: #242424;
   }
   .Nav_item {
-    width: 1100px;
+    max-width: 1100px;
     margin: 0 auto;
   }
   .Nav_content {
@@ -147,6 +147,7 @@ export default {
   /deep/ div .el-tab-pane {
     line-height: 34px;
     float: left;
+    margin-left: 185px;
     font-size: 12px;
     color: #FFFFFF;
   }
