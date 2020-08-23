@@ -2,9 +2,9 @@
   <div id="Search">
     <div class="Content">
       <div class="Middle">
-        <div class="SearchContent" style="margin-top: 15px;">
+        <div class="SearchContent" style="margin-top: 15px;" @keydown.enter="search()">
           <el-input placeholder="请输入内容" v-model="sSongName">
-            <el-button slot="append" icon="el-icon-search" @click="search()"></el-button>
+            <el-button slot="append" icon="el-icon-search" @click="search()" ></el-button>
           </el-input>
         </div>
         <div class="SongList">
@@ -23,7 +23,7 @@
                   label="歌名"
                   width="370">
                   <template slot-scope="scope">
-                    <el-button @click="handleClick(scope.row.url,scope.row.songname)" type="text" size="small">{{scope.row.songname}}</el-button>
+                    <el-button @click="handleClick(scope.row.id,scope.row.name)" type="text" size="small">{{scope.row.name}}</el-button>
                   </template>
                 </el-table-column>
                 <el-table-column
@@ -32,14 +32,19 @@
                   width="96">
                 </el-table-column>
                 <el-table-column
-                  prop="name"
                   label="歌手"
-                  width="130">
+                  width="150">
+                  <template slot-scope="scope">
+                    <span class="Artist" v-for="item in scope.row.artists" @click="handleClickArtist(scope.row.id,scope.row.artists)" type="text" size="small" style="font-size: 12px;white-space:nowrap">{{item.name}}/</span>
+                  </template>
                 </el-table-column>
                 <el-table-column
-                  prop="songlist"
                   label="专辑"
                   width="156">
+                  <template slot-scope="scope">
+                    <span class="Artist" @click="handleClickAlbum(scope.row.album.id,scope.row.album.name)"
+                          type="text" size="small" style="font-size: 12px;white-space:nowrap" :title="'《'+ scope.row.album.name +'》'">《{{scope.row.album.name}}》</span>
+                  </template>
                 </el-table-column>
                 <el-table-column
                   prop="time"
@@ -62,6 +67,7 @@
 </template>
 
 <script>
+import axiosw from '../../axios/index'
 export default {
   name: 'SearchSong',
   created () {
@@ -89,6 +95,7 @@ export default {
       msg: '首单曲',
       SongName: '',
       sSongName: '',
+      SongId: 0,
       Num: 0,
       activeName: 'song',
       tableData: [{
@@ -113,27 +120,48 @@ export default {
       this.activeName = tab.name
     },
     handleClick (url, name) {
+      this.SongId = url
+      this.searchLyric()
       this.$store.commit('changePlay', url)
     },
+    handleClickArtist (url, name) {
+    },
+    handleClickAlbum (url, name) {
+    },
     search () {
-      // this.$axios.get('/user/selectOne?id=' + id)
+      this.SongName = this.sSongName
+      axiosw({
+        url: '/search?keywords=' + this.SongName,
+        method: 'get'
+      })
+        .then(res => {
+          this.personData = res.data.result.songs
+          this.Num = res.data.result.songs.length
+          console.log('我拿到的数据：', this.personData)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+      // this.$axios.get('/music/selectByName?songName=' + this.SongName)
       //   .then(r => {
       //     if (r.status === 200) {
-      //       console.log(r.data)
       //       this.personData = r.data
+      //       this.Num = r.data.length
       //     }
       //   })
       //   .catch(failResponse => {
       //   })
-      this.SongName = this.sSongName
-      this.$axios.get('/music/selectByName?songName=' + this.SongName)
-        .then(r => {
-          if (r.status === 200) {
-            this.personData = r.data
-            this.Num = r.data.length
-          }
+    },
+    searchLyric () {
+      axiosw({
+        url: '/lyric?id=' + this.SongId,
+        method: 'get'
+      })
+        .then(res => {
+          console.log('我拿到的数据：', res)
         })
-        .catch(failResponse => {
+        .catch(err => {
+          console.log(err)
         })
     }
   }
@@ -195,5 +223,9 @@ export default {
   }
   /deep/.el-table--enable-row-transition .el-table__body td {
     padding-left: 20px;
+  }
+  .Artist:hover {
+    cursor: pointer;
+    text-decoration: underline;
   }
 </style>

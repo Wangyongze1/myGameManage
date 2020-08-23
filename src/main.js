@@ -9,6 +9,7 @@ import { Button, Select, Row, Menu, MenuItem,
 import 'element-ui/lib/theme-chalk/index.css'
 
 var axios = require('axios')
+
 axios.defaults.baseURL = 'http://localhost:8443'
 // 全局注册，之后可在其他组件中通过 this.$axios 发送数据
 Vue.prototype.$axios = axios
