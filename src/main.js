@@ -7,7 +7,7 @@ import store from './store/index'
 import { Button, Select, Row, Menu, MenuItem,
   Submenu, Tabs, TabPane, Carousel, CarouselItem, Input, Table, TableColumn} from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
-
+import VueWechatTitle from 'vue-wechat-title'
 var axios = require('axios')
 
 axios.defaults.baseURL = 'http://localhost:8443'
@@ -27,6 +27,7 @@ Vue.use(CarouselItem)
 Vue.use(Input)
 Vue.use(Table)
 Vue.use(TableColumn)
+Vue.use(VueWechatTitle)
 
 Vue.config.productionTip = false
 

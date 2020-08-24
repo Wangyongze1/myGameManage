@@ -29,6 +29,10 @@ export default new Router({
           path: '/SearchSong',
           name: 'SearchSong',
           component: () => import('@/components/SearchSong/SearchSong')
+        }, {
+          path: '/SongDetail',
+          name: 'SongDetail',
+          component: () => import('@/components/SongDetail/SongDetail')
         }
       ]
     },

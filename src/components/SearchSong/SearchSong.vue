@@ -35,7 +35,7 @@
                   label="歌手"
                   width="150">
                   <template slot-scope="scope">
-                    <span class="Artist" v-for="item in scope.row.artists" @click="handleClickArtist(scope.row.id,scope.row.artists)" type="text" size="small" style="font-size: 12px;white-space:nowrap">{{item.name}}/</span>
+                    <span class="Artist" v-for="(item,index) in scope.row.artists" :key="index" @click="handleClickArtist(scope.row.id,scope.row.artists)" type="text" size="small" style="font-size: 12px;white-space:nowrap">{{item.name}}/</span>
                   </template>
                 </el-table-column>
                 <el-table-column
@@ -96,6 +96,7 @@ export default {
       SongName: '',
       sSongName: '',
       SongId: 0,
+      lyric: '',
       Num: 0,
       activeName: 'song',
       tableData: [{
@@ -122,6 +123,7 @@ export default {
     handleClick (url, name) {
       this.SongId = url
       this.searchLyric()
+      console.log(this.$route.meta.title)
       this.$store.commit('changePlay', url)
     },
     handleClickArtist (url, name) {
@@ -158,7 +160,15 @@ export default {
         method: 'get'
       })
         .then(res => {
-          console.log('我拿到的数据：', res)
+          this.lyric = res.data.lrc.lyric
+          let data = {
+            name: 'SongDetail',
+            params: {
+              lyric: this.lyric
+            }
+          }
+          console.log(this.lyric)
+          this.$router.push(data)
         })
         .catch(err => {
           console.log(err)

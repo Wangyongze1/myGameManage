@@ -1,7 +1,7 @@
 <template>
   <div id="helloWorld">
     <Header></Header>
-    <router-view/>
+    <router-view v-wechat-title='$route.meta.title'/>
     <div class="Footer"></div>
     <PlaySong></PlaySong>
   </div>
