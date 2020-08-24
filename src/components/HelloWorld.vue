@@ -1,7 +1,10 @@
 <template>
   <div id="helloWorld">
     <Header></Header>
-    <router-view v-wechat-title='$route.meta.title'/>
+    <keep-alive>
+      <router-view v-if="$route.meta.keepAlive"></router-view>
+    </keep-alive>
+    <router-view v-if="!$route.meta.keepAlive"></router-view>
     <div class="Footer"></div>
     <PlaySong></PlaySong>
   </div>

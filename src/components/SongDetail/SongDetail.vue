@@ -13,10 +13,11 @@ export default {
     }
   },
   mounted () {
+    console.log(222)
     if (this.$route.params.lyric !== undefined) {
       this.lyric = this.$route.params.lyric
       this.lyric = this.lyric.replace(/(\[\d\d\:\d\d\.[0-9]*\])/g, '<br/>')
-      console.log(typeof this.lyric)
+      console.log(this.lyric)
     }
   },
   methods: {
@@ -31,7 +32,7 @@ export default {
 .Lyric {
   padding-top: 20px;
   margin: 0 auto;
-  width: 300px;
+  width: 500px;
   text-align: left;
   height: auto;
 }

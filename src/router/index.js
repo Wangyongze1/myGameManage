@@ -15,6 +15,9 @@ export default new Router({
     {
       path: '/HelloWorld',
       name: 'HelloWorld',
+      meta: {
+        keepAlive: false
+      },
       component: () => import('@/components/HelloWorld'),
       children: [
         {
@@ -28,10 +31,16 @@ export default new Router({
         }, {
           path: '/SearchSong',
           name: 'SearchSong',
+          meta: {
+            keepAlive: true
+          },
           component: () => import('@/components/SearchSong/SearchSong')
         }, {
           path: '/SongDetail',
           name: 'SongDetail',
+          meta: {
+            keepAlive: false
+          },
           component: () => import('@/components/SongDetail/SongDetail')
         }
       ]

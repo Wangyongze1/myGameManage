@@ -35,7 +35,7 @@
                   label="歌手"
                   width="150">
                   <template slot-scope="scope">
-                    <span class="Artist" v-for="(item,index) in scope.row.artists" :key="index" @click="handleClickArtist(scope.row.id,scope.row.artists)" type="text" size="small" style="font-size: 12px;white-space:nowrap">{{item.name}}/</span>
+                    <span class="Artist" v-for="(item,index) in scope.row.artists" :key="index" @click="handleClickArtist(scope.row.id,scope.row.artists)" type="text" size="small" style="font-size: 12px;white-space:nowrap">{{item.name}} </span>
                   </template>
                 </el-table-column>
                 <el-table-column
@@ -70,12 +70,20 @@
 import axiosw from '../../axios/index'
 export default {
   name: 'SearchSong',
-  created () {
-    if (this.$route.params != null || this.$route.params === undefined) {
-      this.SongName = this.$route.params.str
+  activated () {
+    if (this.$route.params.str !== undefined) {
+      this.sSongName = this.$route.params.str
+      this.search()
     }
   },
   watch: {
+    '$route': {
+      handler (newVal, oldVal) {
+        this.getview(newVal, oldVal)
+      },
+      deep: true,
+      immediate: true
+    },
     activeName: {
       handler () {
         switch (this.activeName) {
@@ -110,6 +118,13 @@ export default {
     }
   },
   methods: {
+    getview (to, from) {
+      if (this.$route.query.flag === 0) {
+        this.sSongName = this.$route.query.str
+        this.search()
+        this.$route.query.flag++
+      }
+    },
     tableRowClassName ({row, rowIndex}) {
       if (rowIndex % 2 === 1) {
         return 'warning-row'
@@ -123,7 +138,6 @@ export default {
     handleClick (url, name) {
       this.SongId = url
       this.searchLyric()
-      console.log(this.$route.meta.title)
       this.$store.commit('changePlay', url)
     },
     handleClickArtist (url, name) {

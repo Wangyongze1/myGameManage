@@ -52,15 +52,15 @@ export default {
     },
     change (num) {
       this.num = num
-      console.log(2)
       this.$router.push(this.pageList[num])
     },
     search () {
       this.activeName = 'second'
       let data = {
         name: 'SearchSong',
-        params: {
-          str: this.SongName
+        query: {
+          str: this.SongName,
+          flag: 0
         }
       }
       this.$router.push(data)
